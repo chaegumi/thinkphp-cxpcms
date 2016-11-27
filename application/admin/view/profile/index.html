@@ -1,0 +1,406 @@
+
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        帐号设置
+        <small></small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#/"><i class="fa fa-dashboard"></i> 首页</a></li>
+        <li class="active">帐号设置</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+      <div class="row">
+        <div class="col-md-3">
+
+          <!-- Profile Image -->
+          <div class="box box-primary">
+            <div class="box-body box-profile">
+              <img class="profile-user-img img-responsive img-circle" src="{$user.photo}" alt="User profile picture">
+
+              <h3 class="profile-username text-center">{$user.username}</h3>
+
+              <p class="text-muted text-center"></p>
+
+              <ul class="list-group list-group-unbordered">
+				<li class="list-group-item">
+				  <b>注册时间</b> <a class="pull-right">{$user.reg_time}</a>
+				</li>			  
+				<li class="list-group-item">
+				  <b>总登录次数</b> <a class="pull-right">{$user.login_times}</a>
+				</li>
+				<li class="list-group-item">
+				  <b>本次登录时间</b> <a class="pull-right">{$user.cur_login_time}</a>
+				</li>
+				<li class="list-group-item">
+				  <b>本次登录IP</b> <a class="pull-right">{$user.cur_login_ip}</a>
+				</li>	
+				<li class="list-group-item">
+				  <b>本次登录地区</b> <a class="pull-right">{$user.cur_login_area}</a>
+				</li>	
+				<li class="list-group-item">
+				  <b>上次登录时间</b> <a class="pull-right">{$user.last_login_time}</a>
+				</li>
+				<li class="list-group-item">
+				  <b>上次登录IP</b> <a class="pull-right">{$user.last_login_ip}</a>
+				</li>	
+				<li class="list-group-item">
+				  <b>上次登录地区</b> <a class="pull-right">{$user.last_login_area}</a>
+				</li>				
+                <li class="list-group-item">
+                  <b>发布内容数</b> <a class="pull-right">1,322</a>
+                </li>
+
+              </ul>
+
+              <a href="{:url('admin/logout/index')}" class="btn btn-danger btn-block"><b>登出</b></a>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+
+          
+        </div>
+        <!-- /.col -->
+        <div class="col-md-9">
+          <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+              <li class="active"><a href="#settings" data-toggle="tab">设置</a></li>
+			  <li><a href="#password1" data-toggle="tab">修改密码</a></li>
+			  <li><a href="#oauth" data-toggle="tab">第三方帐号管理</a></li>
+			  <li><a href="#login_log" data-toggle="tab">登录历史记录</a></li>
+			  <li><a href="#operation_log" data-toggle="tab">操作历史记录</a></li>
+            </ul>
+            <div class="tab-content">
+              
+
+              <div class="active tab-pane" id="settings">
+				<form action="{:url('admin/profile/index')}" method="post" id="user_profile_form" class="form-horizontal">
+                  <div class="form-group">
+                    <label for="inputName" class="col-sm-2 control-label">登录名</label>
+
+                    <div class="col-sm-10">
+                      <p class="form-control-static">{$user.username}</p>
+                    </div>
+                  </div>
+				  
+				  <div class="form-group">
+					<label for="display_name" class="col-sm-2 control-label">显示名称</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="display_name" name="display_name" value="{$user.display_name}" />
+					</div>
+				  </div>
+				  
+                  <div class="form-group">
+                    <label for="inputEmail" class="col-sm-2 control-label">邮箱</label>
+
+                    <div class="col-sm-10">
+                      <p class="form-control-static">{$user.email}</p>
+                    </div>
+                  </div>
+
+				  <div class="form-group">
+					<label for="" class="col-md-2 control-label">性别</label>
+					<div class="col-sm-10">
+						<select class="form-control" name="gender">
+							<option value="男" {$user.gender == '男' ? 'selected="selected"' : ''}>男</option>
+							<option value="女" {$user.gender == '女' ? 'selected="selected"' : ''}>女</option>
+						</select>
+					</div>
+				  </div>				  
+				  
+				  <div class="form-group">
+					<label for="" class="col-sm-2 control-label">职位</label> 
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="title" name="title" value="{$user.title}">
+					</div>
+				  </div>
+				  
+				  <div class="form-group">
+					<label for="" class="col-sm-2 control-label">头像</label>
+					<div class="col-sm-10">
+						<div class="row">
+								<div class="col-xs-12 col-md-3 col-lg-2">
+									<img src="{$user.photo}" id="photo_img" style="width:150px;">
+								</div>
+								<div class="col-xs-12 col-md-7 col-lg-7">
+								 <input type="text" class="form-control" name="photo" id="photo" value="{$user.photo}">
+								 <a class="btn btn-default" href="javascript:;" onclick="BrowseServer('', 'photo');return false;"><i class="fa fa-folder-open"></i> 选择文件</a>
+								</div>
+							  </div>
+					</div>
+				  </div>
+                  
+                  <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                       <button type="submit" id="btnprofile" class="btn btn-primary">保存</button>
+				<button type="reset" class="btn btn-default">重置</button>
+				<button type="button" class="btn btn-default" onclick="history.go(-1);">取消</button>
+                    </div>
+                  </div>
+                </form>
+				<script type="text/javascript">
+$(function(){
+	$('#user_profile_form').validate({
+		rules:{
+		
+		},
+		messages:{
+			
+		}
+	});	
+	$('#user_profile_form').ajaxForm({
+		beforeSubmit:function(formData, jqForm, options){
+			// $('button[id="btnprofile"]').attr('disabled', 'disabled');
+			return $('#user_profile_form').valid();
+		},
+		success:function(responseText, statusText, xhr, form){
+			try{
+				var json = responseText;
+				if(json.success){
+					toastr.success(json.msg);			
+				}else{
+					toastr.error(json.msg);
+				}					
+			}catch(e){
+				toastr.error(e.message);
+			}
+			return false;
+		},
+		error:function(xhr, statusText, errorThrown){
+			toastr.error(errorThrown);
+			return false;
+		}
+	});			
+});
+</script>  
+              </div>
+              <!-- /.tab-pane -->
+			  
+			  <div class="tab-pane" id="password1">
+				<form action="{:url('admin/profile/update_password')}" method="post" class="form-horizontal" id="password-edit-form">
+                  <div class="form-group">
+                    <label for="password" class="col-sm-2 control-label">新密码</label>
+
+                    <div class="col-sm-10">
+                      <input type="password" class="form-control" name="password" id="password" >
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="password" class="col-sm-2 control-label">确认新密码</label>
+
+                    <div class="col-sm-10">
+                      <input type="password" class="form-control" name="confirm_password" id="confirm_password" >
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                       <button type="submit" class="btn btn-primary">保存</button>
+				<button type="reset" class="btn btn-default">重置</button>
+				<button type="button" class="btn btn-default" onclick="history.go(-1);">取消</button>
+                    </div>
+                  </div>				
+				</form>
+				<script type="text/javascript">
+$(function(){
+	$('#password-edit-form').validate({
+		rules:{
+			password:{
+				required:true,
+				minlength:6
+			},
+			confirm_password:{
+				required:true,
+				equalTo:'#password'
+			}
+		},
+		messages:{
+			password:{
+				required:'请输入新密码',
+				minlength:'至少输入6位密码'
+			},
+			confirm_password:{
+				required:'请输入确认新密码',
+				equalTo:'两次密码输入不一致'
+			}
+		}
+	});	
+	$('#password-edit-form').ajaxForm({
+		beforeSubmit:function(formData, jqForm, options){
+			return $('#password-edit-form').valid();
+		},
+		success:function(responseText, statusText, xhr, form){
+			try{
+				var json = responseText;
+				if(json.success){
+					toastr.success(json.msg);
+				}else{
+					toastr.error(json.msg);
+				}
+				
+			}catch(e){
+				toastr.error(e.message);
+			}
+			return false;
+		},
+		error:function(xhr, statusText, errorThrown){
+			toastr.error(errorThrown);
+			return false;
+		}
+	});			
+});
+</script> 
+			  </div>
+			  
+			  <div class="tab-pane" id="oauth">
+				<table class="table table-striped table-hover" id="oauth-datatable" width="100%">
+					<thead>
+						<tr>
+							<th>服务</th>
+							<th>用户ID</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+<script type="text/javascript">
+$(function(){
+	var table = $('#oauth-datatable').DataTable({
+		searching:false,
+		deferRender:true,
+		ajax:{
+			url:'{:url('admin/profile/bind')}',
+			type:'post',
+			data:function(d){
+				
+			}
+		},
+		columns:[
+			{data:'user_type'},
+			{data:'rel_nickname'},
+			{
+				data:'user_type',
+				render:function(data, type, row){
+					return '<a href="javascript:;" title="解绑" onclick="del_confirm(\'提示\', \'您确定要解除' + data + '登录帐号吗？\', \'{:url('admin/profile/unbind')}?user_type=' + data + '\', \'oauth-datatable\');"><i class="fa fa-chain-broken"></i></a>';
+				}
+			}
+		]
+	});
+	
+});
+</script>
+			  </div>
+			  
+			  <div class="tab-pane" id="login_log">
+				<div class="table-responsive no-padding"><div class="col-xs-12">
+              <table class="table table-striped table-bordered table-hover" id="login_log-datatable" width="100%">
+												<thead>
+													<tr>
+														<th nowrap>登录时间</th>
+														<th nowrap>IP</th>
+														<th nowrap>地区</th>
+														<th nowrap>类型</th>
+													</tr>
+												</thead>
+												<tbody>
+												   
+												</tbody>
+											</table></div>
+            </div>
+			
+<script type="text/javascript">
+$(function(){
+	
+	var table = $('#login_log-datatable').DataTable({
+		deferRender: true,
+		select:{
+			style:'single',
+			blurable: true
+		},	
+		ajax:{
+			url:'{:url('admin/profile/login_log')}',
+			type:'post',
+			data:function(d){
+				//d.csrf_test_name = $.cookie(CSRF_COOKIE_NAME);
+			}
+		},
+		columns:[
+			{data:'login_time'},
+			{data:'login_ip'},
+			{data:'login_area'},
+			{
+				data:'login_type',
+				render:function(data, type, row){
+					if(data == '1'){
+						return '登出';
+					}else{
+						return '登录';
+					}
+				}
+			}
+		],
+		order:[[0, 'desc']]
+	});
+});
+</script>
+			  </div>
+			  
+			  <div class="tab-pane" id="operation_log">
+				<div class="table-responsive no-padding"><div class="col-xs-12">
+              <table class="table table-striped table-bordered table-hover" id="operation_log-datatable" width="100%">
+												<thead>
+													<tr>
+														<th nowrap>操作时间</th>
+														<th nowrap>IP</th>
+														<th nowrap>地区</th>
+														<th nowrap>描述</th>
+													</tr>
+												</thead>
+												<tbody>
+												   
+												</tbody>
+											</table></div>
+            </div>
+			<script type="text/javascript">
+$(function(){
+	
+	var table = $('#operation_log-datatable').DataTable({
+		deferRender: true,
+		select:{
+			style:'single',
+			blurable: true
+		},	
+		ajax:{
+			url:'{:url('admin/profile/operation_log')}',
+			type:'post',
+			data:function(d){
+				//d.csrf_test_name = $.cookie(CSRF_COOKIE_NAME);
+			}
+		},
+		columns:[
+			{data:'operation_time'},
+			{data:'operation_ip'},
+			{data:'operation_area'},
+			{data:'operation_content'}
+		]
+	});
+});
+</script>    
+			  </div>
+			  
+            </div>
+            <!-- /.tab-content -->
+          </div>
+          <!-- /.nav-tabs-custom -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+
+    </section>
+    <!-- /.content -->

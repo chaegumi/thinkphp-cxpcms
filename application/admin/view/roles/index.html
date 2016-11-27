@@ -1,0 +1,91 @@
+
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        角色管理
+        <small></small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#/"><i class="fa fa-dashboard"></i> 控制面板</a></li>
+        <li class="active">角色管理</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="nav-tabs-custom">
+			<ul class="nav nav-tabs">
+					<li class="active"><a href="#/roles">角色管理</a></li>
+					
+					<li><a href="#/roles/add">添加角色</a></li>
+						
+					
+				</ul>
+				<div class="tab-content table-responsive no-padding"><div class="col-xs-12">
+              <table class="table table-striped table-bordered table-hover" id="roles-datatable" width="100%">
+												<thead>
+													<tr>
+														<th nowrap>#</th>
+														<th nowrap>角色名称</th>
+														<th nowrap>操作</th>
+													</tr>
+												</thead>
+												<tbody>
+												   
+												</tbody>
+											</table></div>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+      </div>
+
+      
+
+      
+    </section>
+    <!-- /.content -->
+
+<script type="text/javascript">
+$(function(){
+	
+	var table = $('#roles-datatable').DataTable({
+		deferRender: true,
+		select:{
+			style:'single',
+			blurable: true
+		},	
+		ajax:{
+			url:'{:url('/roles/data')}',
+			type:'post',
+			data:function(d){
+				//d.csrf_test_name = $.cookie(CSRF_COOKIE_NAME);
+			}
+		},
+		columns:[
+			{
+				data:'id',
+				className:'select-checkbox',
+				render:function(data, type, row){
+					return data;
+				}
+			},
+			{data:'roleName'},
+			{
+				data:'id',
+				sortable:false,
+				render:function(data, type, row){
+					var html = '';
+					html += '<div class="btn-group">';
+						  html += '<a href="#/roles/edit?id=' + data + '" title="修改" class="btn btn-default btn-xs"><i class="fa fa-pencil icon-pencil"></i></a><a href="javascript:;" onclick="del_confirm(\'Notice\', \'您确定删除该记录？\', \'{:url('/roles/delete?id=')}' + data + '\',\'roles-datatable\');" title=" 删除" class="btn btn-default btn-xs"><i class="fa fa-trash icon-trash"></i></a>';
+					html += '</div>';
+					return html;
+				}
+			}
+		]
+	});
+});
+</script>    

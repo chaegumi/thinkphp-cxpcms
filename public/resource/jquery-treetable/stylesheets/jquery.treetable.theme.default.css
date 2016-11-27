@@ -1,0 +1,35 @@
+
+table.treetable span.file {
+  background-image: url(../images/file.png);
+}
+
+table.treetable span.folder {
+  background-image: url(../images/folder.png);
+}
+
+table.treetable tr.collapsed span.indenter{
+  background-image: url(../images/expand.png);
+}
+
+table.treetable tr.expanded span.indenter {
+  background-image: url(../images/collapse.png);
+}
+
+
+table.treetable tr.collapsed.selected span.indenter{
+  background-image: url(../images/expand-light.png);
+}
+
+table.treetable tr.expanded.selected span.indenter {
+  background-image: url(../images/collapse-light.png);
+}
+
+
+
+table.treetable tr.collapsed.accept td span.indenter {
+  background-image: url(../images/expand-light.png);
+}
+
+table.treetable tr.expanded.accept td span.indenter {
+  background-image: url(../images/collapse-light.png);
+}

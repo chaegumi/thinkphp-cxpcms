@@ -1,0 +1,181 @@
+<style type="text/css">
+ul.ztree {margin-top: 10px;overflow-y:none;overflow-x:auto;}
+.ztree li span.button.add {margin-left:2px; margin-right: -1px; background-position:-144px 0; vertical-align:top; *vertical-align:middle}
+</style>
+<link rel="stylesheet" href="__RESOURCE_URL__/ztree/css/zTreeStyle/zTreeStyle.css" />
+<script type="text/javascript" src="__RESOURCE_URL__/ztree/js/jquery.ztree.core-3.5.js"></script>
+<script type="text/javascript" src="__RESOURCE_URL__/ztree/js/jquery.ztree.excheck-3.5.js"></script>
+			
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        角色管理
+        <small></small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#/"><i class="fa fa-dashboard"></i> 控制面板</a></li>
+        <li class="active">角色管理</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+         <div class="nav-tabs-custom">
+			<ul class="nav nav-tabs">
+					<li><a href="#/roles">角色管理</a></li>
+					{if condition="$info.id == 0"}
+						<li class="active"><a href="#/roles/add">添加角色</a></li>
+						{else /}
+						<li class="active"><a href="#/roles/edit?id={$info.id}">修改角色</a></li>
+						{/if}
+					
+				</ul>
+				<div class="tab-content">
+				<form action="{:url('/roles/save')}" method="post" id="role-edit-form">
+				<input type="hidden" name="id" value="{$info.id}">
+			
+             
+                <div class="form-group">
+                  <label for="roleName">角色名称</label>
+                  <input type="text" class="form-control" name="roleName" id="roleName" value="{$info.roleName}">
+                </div>			
+				
+				<div class="form-group">
+				  <label for="">角色权限</label>
+					所有权限 <a href="javascript:;" id="expandAllBtn">展开</a> | <a href="javascript:;" id="collapseAllBtn">收缩</a> | <a href="javascript:;" class="checkall" data-type="1">所有允许</a> | <a href="javascript:;" class="checkall" data-type="0">所有拒绝</a> | <a href="javascript:;" class="checkall" data-type="x">所有忽略</a>
+					<ul id="treeDemo" class="ztree"></ul>
+				</div>
+             
+
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary">保存</button>
+				<button type="reset" class="btn btn-default">重置</button>
+				<button type="button" class="btn btn-default" onclick="history.go(-1);">取消</button>
+              </div>
+            </form>
+          </div>
+          </div>
+        </div>
+      </div>
+
+      
+
+      
+    </section>
+    <!-- /.content -->
+
+<script type="text/javascript">
+		<!--
+		var IDMark_Switch = "_switch",
+		IDMark_Icon = "_ico",
+		IDMark_Span = "_span",
+		IDMark_Input = "_input",
+		IDMark_Check = "_check",
+		IDMark_Edit = "_edit",
+		IDMark_Remove = "_remove",
+		IDMark_Ul = "_ul",
+		IDMark_A = "_a";
+		
+		var setting = {
+			check:{
+				// enable:true
+			},
+			view:{
+				addDiyDom:addDiyDom
+			},
+			edit:{
+			},
+			async: {
+				enable:true,
+				url:'{:url('admin/roles/perm_data')}',
+				autoParam:[],
+				otherParam:{'action':'{$action}', 'roleid':'{$info.id}'}
+			},
+			callback:{
+			}
+		};
+
+		function addDiyDom(treeId, treeNode){
+			var aObj = $('#' + treeNode.tId + IDMark_A);
+			var diyStr = "<select name=\"perm_" + treeNode.id + "\"><option value=\"1\" " + (treeNode.chk == '1' ? 'selected="selected"' : '') + ">允许</option><option value=\"0\" " + (treeNode.chk == '0' ? 'selected="selected"' : '') + ">拒绝</option><option value=\"x\" " + (treeNode.chk == 'x' ? 'selected="selected"' : '') + ">忽略</option></select>";
+			aObj.after(diyStr);
+		}
+		
+		$(document).ready(function(){
+			$.fn.zTree.init($("#treeDemo"), setting);
+			$('#expandAllBtn').on('click', function(){
+				var zTree = $.fn.zTree.getZTreeObj('treeDemo');
+				zTree.expandAll(true);
+			});
+			$('#collapseAllBtn').on('click', function(){
+				var zTree = $.fn.zTree.getZTreeObj('treeDemo');
+				zTree.expandAll(false);
+			});
+		});
+		
+		
+		//-->
+</script>  
+<script type="text/javascript">
+$(function(){
+	
+	// 全选
+	$(document).on('click', '.checkall', function(){
+		var type = $(this).attr('data-type');
+		// console.log(type);
+		// $('.checkall').each(function(i, n){
+			// if($(n).attr('data-type') != type){
+				// $(n).prop('selected', false);
+			// }
+		// });
+		// $(this).siblings('.checkall').prop('selected', false);
+		$('select[name*="perm_"]').each(function(i, n){
+			// console.log(n);
+			switch(type){
+				case '1':
+					$(n).val('1');
+					break;
+				case '0':
+					$(n).val('0');				
+					break;
+				case 'x':
+					$(n).val('x');				
+					break;
+			}
+		});
+	});	
+	$('#role-edit-form').validate({
+		rules:{
+			roleName:{
+				required:true
+			}
+		},
+		messages:{
+			roleName:{
+				required:'角色名称不能为空'
+			}
+		}
+	});	
+	$('#role-edit-form').ajaxForm({
+		beforeSubmit:function(formData, jqForm, options){
+			return $('#role-edit-form').valid();
+		},
+		success:function(responseText, statusText, xhr, form){
+			var json = responseText;
+			if(json.success){
+				toastr.success(json.msg);
+				{if condition="$info.id == 0"}
+					location.href = '#/roles';
+					{else /}
+					location.href = '#/roles/edit?id={$info.id}&after=edit';
+					{/if}			
+			}else{
+				toastr.error(json.msg);
+			}
+			return false;
+		}
+	});			
+});
+</script>     
